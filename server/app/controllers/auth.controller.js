@@ -2,6 +2,7 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
 const Role = db.role;
+const Spinner_parts = db.spinner_parts;
 
 const Op = db.Sequelize.Op;
 
@@ -85,3 +86,51 @@ exports.signin = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+// Spinner Insert 
+exports.addParts = (req, res) => {
+  Spinner_parts.findAll({ where: {position: req.body.position} }).
+      then(function(Spinner_parts_error){
+        if (Spinner_parts_error.length > 0) {
+          //exists...
+          res.status(500).send({ message: 'Position Already Exist'});
+        } else {
+          // Save spinner_parts    to Database
+          Spinner_parts.create({
+            fillStyle: req.body.fillstyle,
+            text: req.body.text,
+            fontsize: req.body.fontsize,
+            textFillStyle: req.body.textFillStyle,
+            position: req.body.position   
+          })
+          .then(spinner_parts => {
+            res.send({ message: "Insert successfully!" });
+          })
+          .catch(err => {
+            res.status(500).send({ message: err.message });
+          });
+        }
+      });
+};
+
+// Spinner Update 
+exports.updateparts = (req, res) => {
+  // Update spinner_parts to Database
+  Spinner_parts.update({
+    fillStyle: req.body.fillStyle,
+    text: req.body.text,
+    fontsize: req.body.fontsize,
+    textFillStyle: req.body.textFillStyle,
+    position: req.body.position
+  },{
+    where: {
+      id: req.body.id
+    }
+  })
+  .then(spinner_parts => {
+      res.send({ message: "Update successfully!" });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+

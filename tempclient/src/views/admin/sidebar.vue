@@ -16,6 +16,25 @@
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
             </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Spinner Parts</span>
+                </a>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">SPINER PARTS</h6>
+                        <router-link to="/admin/parts" class="collapse-item">
+                            <span>Spinner Parts Listing</span></router-link>
+                        <router-link to="/admin/addnewparts" class="collapse-item">
+                            <span>Add New Parts</span></router-link>
+                    </div>
+                </div>
+            </li>
+            <!-- Nav Item - Utilities Collapse Menu -->
+                
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->

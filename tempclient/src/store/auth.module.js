@@ -1,7 +1,10 @@
 import AuthService from '../services/auth.service';
+import SpinEnquiry from '../services/spin_enquiry';
 
 const user = JSON.parse(localStorage.getItem('user'));
-const initialState = user ? { status: { loggedIn: true }, user }: { status: { loggedIn: false }, user: null };
+const initialState = user
+  ? { status: { loggedIn: true }, user }
+  : { status: { loggedIn: false }, user: null };
 
 export const auth = {
   namespaced: true,
@@ -34,6 +37,40 @@ export const auth = {
           return Promise.reject(error);
         }
       );
+    },
+    addParts({ commit }, user) {
+      return AuthService.addParts(user).then(
+        response => {
+          commit('insertSuccess');
+          return Promise.resolve(response.data);
+        },
+        error => {
+          commit('insertFailure');
+          return Promise.reject(error);
+        }
+      );
+    },
+    updateparts({ commit }, user) {
+      return AuthService.updateparts(user).then(
+        response => {
+          commit('UpdateSuccess');
+          return Promise.resolve(response.data);
+        },
+        error => {
+          commit('updateFailure');
+          return Promise.reject(error);
+        }
+      );
+    },
+    spin_enquiry(data) {
+      return SpinEnquiry.spin_enquiry(data).then(
+        response => {
+          return Promise.resolve(response.data);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
     }
   },
   mutations: {
@@ -53,6 +90,18 @@ export const auth = {
       state.status.loggedIn = false;
     },
     registerFailure(state) {
+      state.status.loggedIn = false;
+    },
+    insertSuccess(state){
+      state.status.loggedIn = false;
+    },
+    insertFailure(state){
+      state.status.loggedIn = false;
+    },
+    UpdateSuccess(state){
+      state.status.loggedIn = false;
+    },
+    updateFailure(state){
       state.status.loggedIn = false;
     }
   }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://192.168.1.30:8081/api/auth/';
+const API_URL = 'auth/';
 
 class AuthService {
   login(user) {
@@ -27,6 +27,27 @@ class AuthService {
       username: user.username,
       email: user.email,
       password: user.password
+    });
+  }
+
+  addParts(user) {
+    return axios.post(API_URL + 'addParts', {
+      fillstyle: user.fillstyle,
+      text: user.text,
+      fontsize: user.fontsize,
+      textFillStyle: user.textFillStyle,
+      position: user.position    
+    });
+  } 
+
+  updateparts(user) {
+    return axios.post(API_URL + 'updateparts', {
+      fillStyle: user.fillStyle,
+      text: user.text,
+      fontsize: user.fontsize,
+      textFillStyle: user.textFillStyle,
+      position: user.position,
+      id: user.id
     });
   }
 }

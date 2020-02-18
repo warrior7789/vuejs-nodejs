@@ -9,6 +9,10 @@ import Vuex from 'vuex';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
+import VueAxios from 'vue-axios'
+import axios from 'axios'
+axios.defaults.baseURL = 'http://192.168.1.30:8081/api/'
+Vue.use(VueAxios, axios)
 
 import {
   faHome,

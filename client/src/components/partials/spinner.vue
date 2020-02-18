@@ -26,7 +26,7 @@
 
 				<vue-tel-input :valid-characters-only="true" @input="onInput"/>
                 <div class="button-wrapper">
-                    <a class="btn btn-play" href="#" @click.prevent="startSpin()" v-if="!loadingPrize && !wheelSpinning">SPIN!</a>
+                    <a class="btn btn-success" href="#" @click.prevent="startSpin()" v-if="!loadingPrize && !wheelSpinning">SPIN!</a>
                 </div>
                 <div class="custom-modal modal-mask" id="modalSpinwheel" v-if="modalPrize">
                     <div slot="body">

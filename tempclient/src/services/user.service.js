@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'http://192.168.1.30:8081/api/test/';
+const API_URL = '';
 
 class UserService {
   getPublicContent() {
@@ -19,6 +19,17 @@ class UserService {
   getAdminBoard() {
     return axios.get(API_URL + 'admin', { headers: authHeader() });
   }
+
+  getAllParts() {
+    return axios.get(API_URL + 'getAllParts', { headers: authHeader() });
+  }
+
+  getDeletParts(id) {
+    return axios.get(API_URL + 'getDeleteParts/'+id, { headers: authHeader() });
+  } 
+  getParticularParts(id) {
+    return axios.get(API_URL + 'getParticularParts/'+id, { headers: authHeader() });
+  }  
 }
 
 export default new UserService();

@@ -18,3 +18,7 @@
 		}
 	}
 </script>
+<style scoped>
+@import '../../assets/front.css';
+@import '../../assets/fontawesome-free/css/all.min.css';
+</style>

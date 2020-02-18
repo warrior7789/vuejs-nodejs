@@ -1,5 +1,6 @@
 const { verifySignUp } = require("../middleware");
 const controller = require("../controllers/auth.controller");
+const SpinnControlers = require("../controllers/spinn.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -20,4 +21,8 @@ module.exports = function(app) {
   );
 
   app.post("/api/auth/signin", controller.signin);
+  app.post("/api/auth/addParts", controller.addParts);
+  app.post("/api/auth/updateparts", controller.updateparts);
+  app.post("/api/spinenquiry", SpinnControlers.findnumber);
+ 
 };

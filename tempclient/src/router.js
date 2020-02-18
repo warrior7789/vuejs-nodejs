@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 //import Home from './views/Home.vue';
-import Login from './views/Login.vue';
-import Register from './views/Register.vue';
+//import Login from './views/Login.vue';
+//import Register from './views/Register.vue';
 
 Vue.use(Router);
 
@@ -25,6 +25,24 @@ export const router = new Router({
                     //beforeEnter: requireAuth,
                     meta: {
                         //permission: 'user'
+                    }
+                },
+                {
+                    path: '/login',
+                    name: 'login',
+                    component: () => import("@/views/front/Login.vue"),
+                    //beforeEnter: requireAuth,
+                    meta: {
+                       // permission: 'user'
+                    }
+                },
+                {
+                    path: '/register',
+                    name: 'Register',
+                    component: () => import("@/views/front/Register.vue"),
+                    //beforeEnter: requireAuth,
+                    meta: {
+                       // permission: 'user'
                     }
                 },
                 {
@@ -68,8 +86,17 @@ export const router = new Router({
                     }
                 },
                 {
+                    path: 'login',
+                    name: 'admin-login',
+                    component: () => import("@/views/admin/Login.vue"),
+                    //beforeEnter: requireAuth,
+                    meta: {
+                       // permission: 'user'
+                    }
+                },
+                {
                     path: 'profile',
-                    name: 'profile',
+                    name: 'admin-profile',
                     component: () => import("@/views/admin/Profile.vue"),
                     //beforeEnter: requireAuth,
                     meta: {
@@ -78,8 +105,35 @@ export const router = new Router({
                 },
                 {
                     path: 'user',
-                    name: 'user',
+                    name: 'admin-user',
                     component: () => import("@/views/admin/user.vue"),
+                    //beforeEnter: requireAuth,
+                    meta: {
+                       // permission: 'user'
+                    }
+                },
+                {
+                    path: 'parts',
+                    name: 'parts',
+                    component: () => import("@/views/admin/Parts.vue"),
+                    //beforeEnter: requireAuth,
+                    meta: {
+                       // permission: 'user'
+                    }
+                },
+                {
+                    path: 'addnewparts',
+                    name: 'addnewparts',
+                    component: () => import("@/views/admin/AddNewParts.vue"),
+                    //beforeEnter: requireAuth,
+                    meta: {
+                       // permission: 'user'
+                    }
+                },
+                {
+                    path: `parts/edit/:id`,
+                    name: 'updateparts',
+                    component: () => import("@/views/admin/UpdateParts.vue"),
                     //beforeEnter: requireAuth,
                     meta: {
                        // permission: 'user'
@@ -91,15 +145,16 @@ export const router = new Router({
                   */
                 { path: '_=_', redirect: '/' }
             ]
+
         },        
-        {
+        /*{
             path: '/login',
             component: Login
-        },
-        {
+        },*/
+        /*{
             path: '/register',
             component: Register
-        },        
+        }, */       
         /*{
             path: '/admin',
             name: 'admin',
@@ -121,7 +176,7 @@ export const router = new Router({
     ]
 });
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
     const publicPages = ['/login', '/register', '/home'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
@@ -133,4 +188,4 @@ router.beforeEach((to, from, next) => {
   } else {
       next();
   }
-});
+});*/
