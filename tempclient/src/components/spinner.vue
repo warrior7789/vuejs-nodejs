@@ -26,26 +26,24 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="col-md-12 bg-color">
-                        <div class="mt-5 ">
-                            <vue-tel-input :valid-characters-only="true" @input="onInput" placeholder="Enter Phone Number to spin " />
-                            
-                        </div>
-                        <div class="button-wrapper">
-                            <a class="btn btn-success" href="#" @click.prevent="startSpin()" v-if="!loadingPrize && !wheelSpinning && mobile_no.valid && user_spin==0 ">SPIN!</a>
-                        </div>
-                        <div class="custom-modal modal-mask" id="modalSpinwheel" v-if="modalPrize">
-                            <div slot="body">
-                                <a href="" @click.prevent="hidePrize()" class="modal-dismiss">
-                                    <i class="icon_close"></i>
-                                </a>
-                                <h2>
-                                    Yay you got the prize!!
-                                </h2>
-                                <h1> {{prizeName}}</h1>
-                                <p>{{ message }}</p>
+                        <div class="col-md-12 bg-color">                            
+                            <div class="mt-5 ">
+                                <vue-tel-input :valid-characters-only="true" @input="onInput" placeholder="Enter Phone Number to spin " />
+                                
                             </div>
-                        </div>
+                            <div class="button-wrapper">
+                                <h5 v-if="mobile_no_validate">{{ mobile_no_error_text }}</h5>
+                                <button class="btn btn-success"  @click.prevent="startSpin()" v-if="!loadingPrize && !wheelSpinning " :disabled='isDisabled'>{{ spin_button_text }}</button>
+                            </div>
+                            <div class="custom-modal modal-mask" id="modalSpinwheel" v-if="modalPrize">
+                                <div slot="body">
+                                    <a href="" @click.prevent="hidePrize()" class="modal-dismiss">
+                                        <i class="icon_close"></i>
+                                    </a>
+                                    <h5>Yay you got the prize!!</h5>
+                                    <h6 class="price_win_text"> {{prizeName}}</h6>
+                                </div>
+                            </div>
                         </div>
                     </div>            
                 </div>
@@ -74,6 +72,9 @@
                     valid: false,
                     country: undefined,
                 },
+                spin_button_text : 'SPIN !',
+                mobile_no_error_text : '',
+                mobile_no_validate : false,
                 message: '',
                 user_spin : 0,
                 audio : new Audio('/assets/voice/tick.mp3'),
@@ -123,22 +124,34 @@
                 //console.log(number)
                 //console.log(valid)
                 //console.log(country)
+                this.spin_button_text = 'Spin!' ;
+                this.mobile_no_validate = false;
+                this.modalPrize = false;
                 this.mobile_no.number = number.international;
                 this.mobile_no.valid = valid;
                 this.mobile_no.country = country && country.name;
+                this.mobile_no_error_text ="";
+                this.mobile_no_validate = false;
+
                 if(valid){
-                    axios.post('spinenquiry', {
-                        number: this.mobile_no.number,
-                        status: 1,
-                        entryDate: new Date().toLocaleString()
+                    axios.post('checknumber', {
+                        number: this.mobile_no.number
                     })
                     .then(response => {
-                        if (response.data.accessToken) {
-                            localStorage.setItem('user', JSON.stringify(response.data));
-                        }
-
-                        return response.data;
+                        //window.console.log(response)
+                        if (response.data) {
+                            if(response.data.status == 1 ){
+                                this.mobile_no_validate = true;
+                                this.spin_button_text = 'Spin Now' ;
+                            }else{
+                                //this.message = response.data.message ;
+                                this.mobile_no_error_text =response.data.message;
+                                this.mobile_no_validate = true;
+                            }
+                        }                    
                     });
+                }else{
+                    this.mobile_no_validate = false;
                 }
             },
             showPrize () {
@@ -148,6 +161,7 @@
                 this.modalPrize = false
             },
             startSpin () {
+                this.resetWheel()
                 if (this.wheelSpinning === false) {
                     this.theWheel.startAnimation()
                     this.wheelSpinning = true
@@ -179,6 +193,7 @@
                     this.theWheel.startAnimation()
                     this.wheelSpinning = false
                 }
+                
             },
             resetWheel () {
                 this.rotate =false;
@@ -200,7 +215,6 @@
                 this.wheelSpinning = false // Reset to false to power buttons and spin can be clicked again.
             },
             initSpin () {
-
                 this.loadingPrize = true
                 this.resetWheel()
                 this.loadingPrize = false
@@ -210,6 +224,23 @@
                 this.showPrize();
                 this.rotate =false;
                 this.user_spin = this.user_spin + 1;
+                
+                axios.post('spinresult', {
+                    number: this.mobile_no.number,
+                    status: 1,
+                    prize_win: indicatedSegment.text,
+                })
+                .then(response => {
+                    //window.console.log(response)
+                    if (response.data) {
+                        if(response.data.status == 1 ){
+                            this.mobile_no_validate = true;
+                        }else{
+                            this.message = response.data.message ;
+                        }
+                    }                    
+                });
+
                 //console.log(" onFinishSpin" + (360 - this.theWheel.getRotationPosition()));
             },
             playSound(){    
@@ -235,10 +266,16 @@
 
             }
         },
-        computed: {},
+        computed: {
+            isDisabled: function(){
+                return !this.mobile_no_validate;
+            }
+
+        },
         updated () {},
         mounted (){
             this.initSpin();
+                        
             UserService.getAllParts().then(
                 response => {                    
                     this.segments = response.data;

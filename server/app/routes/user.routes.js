@@ -1,5 +1,6 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
+const spinncontroller = require("../controllers/spinn.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -12,6 +13,7 @@ module.exports = function(app) {
 
   app.get("/api/all", controller.allAccess);
   app.get("/api/getAllParts", controller.allparts);
+  app.get("/api/getAllEnquiry", spinncontroller.allenquiry);
   app.get('/api/getDeleteParts/:id', controller.DeleteParts);
   app.get('/api/getParticularParts/:id', controller.SelectParticularParts);
 

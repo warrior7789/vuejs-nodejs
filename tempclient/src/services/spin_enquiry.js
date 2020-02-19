@@ -1,15 +1,12 @@
 import axios from 'axios';
+import authHeader from './auth-header';
 
 const API_URL = '';
 
 class SpinEnquiry {
-  spin_enquiry(data) {
-    return axios.post(API_URL + 'spinenquiry', {
-      number: data.mobile_no,
-      status: data.status,
-      entryDate: data.currentDate  
-    });
-  } 
+  getAllEnquiry() {
+    return axios.get(API_URL + 'getAllEnquiry', { headers: authHeader() });
+  }
 }
 
 export default new SpinEnquiry();

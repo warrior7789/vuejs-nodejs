@@ -23,6 +23,7 @@ module.exports = function(app) {
   app.post("/api/auth/signin", controller.signin);
   app.post("/api/auth/addParts", controller.addParts);
   app.post("/api/auth/updateparts", controller.updateparts);
-  app.post("/api/spinenquiry", SpinnControlers.findnumber);
+  app.post("/api/checknumber", SpinnControlers.findnumber);
+  app.post("/api/spinresult", SpinnControlers.insertnumber);
  
 };

@@ -10,9 +10,8 @@ module.exports = (sequelize, Sequelize) => {
     status: {
       type: Sequelize.STRING
     },
-    entryDate: {
-      type: Sequelize.DATE,
-      defaultValue: Sequelize.NOW
+    prize_win: {
+      type: Sequelize.STRING
     }
   });
 

@@ -139,6 +139,15 @@ export const router = new Router({
                        // permission: 'user'
                     }
                 },
+                {
+                    path: 'spinenquiry',
+                    name: 'spinenquiry',
+                    component: () => import("@/views/admin/SpinEnquiryListing.vue"),
+                    //beforeEnter: requireAuth,
+                    meta: {
+                       // permission: 'user'
+                    }
+                },
                 
                 /*
                   Catch Alls
