@@ -25,5 +25,6 @@ module.exports = function(app) {
   app.post("/api/auth/updateparts", controller.updateparts);
   app.post("/api/checknumber", SpinnControlers.findnumber);
   app.post("/api/spinresult", SpinnControlers.insertnumber);
+  app.post("/api/userinformation", SpinnControlers.userinformation);
  
 };

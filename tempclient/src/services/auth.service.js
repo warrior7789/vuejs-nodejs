@@ -36,7 +36,9 @@ class AuthService {
       text: user.text,
       fontsize: user.fontsize,
       textFillStyle: user.textFillStyle,
-      position: user.position    
+      position: user.position,
+      isWin: user.isWin,
+      gap: user.gap
     });
   } 
 
@@ -47,6 +49,8 @@ class AuthService {
       fontsize: user.fontsize,
       textFillStyle: user.textFillStyle,
       position: user.position,
+      isWin: user.isWin,
+      gap: user.gap,
       id: user.id
     });
   }

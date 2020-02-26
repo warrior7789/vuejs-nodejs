@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     prize_win: {
       type: Sequelize.STRING
+    },
+    win_status: {
+      type: Sequelize.STRING
     }
   });
 

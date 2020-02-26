@@ -14,6 +14,12 @@ module.exports = (sequelize, Sequelize) => {
     },
     position: {
       type: Sequelize.STRING
+    },
+    isWin: {
+      type: Sequelize.STRING
+    },
+    gap: {
+      type: Sequelize.STRING
     }
   });
 

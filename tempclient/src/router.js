@@ -3,11 +3,11 @@ import Router from 'vue-router';
 //import Home from './views/Home.vue';
 //import Login from './views/Login.vue';
 //import Register from './views/Register.vue';
+import JwPagination from 'jw-vue-pagination';
+
+Vue.component('jw-pagination', JwPagination);
 
 Vue.use(Router);
-
-
-
 
 export const router = new Router({
     mode: 'history',
@@ -143,6 +143,24 @@ export const router = new Router({
                     path: 'spinenquiry',
                     name: 'spinenquiry',
                     component: () => import("@/views/admin/SpinEnquiryListing.vue"),
+                    //beforeEnter: requireAuth,
+                    meta: {
+                       // permission: 'user'
+                    }
+                },                
+                {
+                    path: 'userinformation',
+                    name: 'userinformation',
+                    component: () => import("@/views/admin/UserInformationListing.vue"),
+                    //beforeEnter: requireAuth,
+                    meta: {
+                       // permission: 'user'
+                    }
+                },
+                {
+                    path: '/user/profile',
+                    name: 'user-profile',
+                    component: () => import("@/views/admin/Profile.vue"),
                     //beforeEnter: requireAuth,
                     meta: {
                        // permission: 'user'

@@ -17,6 +17,9 @@ export default {
     };
   },
   mounted() {
+    if (!this.currentUser) {
+        this.$router.push('/login');
+    }
     UserService.getPublicContent().then(
       response => {
         this.content = response.data;

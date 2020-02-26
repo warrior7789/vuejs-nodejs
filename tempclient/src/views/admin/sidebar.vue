@@ -18,7 +18,7 @@
             </li>
 
             <!-- Start Nav Item - Spinner Parts Menu -->
-            <li class="nav-item">
+            <li class="nav-item" v-if="showAdminBoard">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Spinner Parts</span>
@@ -36,7 +36,7 @@
             <!-- End Nav Item - Spinner Parts Menu -->
 
             <!-- Start Nav Item - Spin Enquiry Menu -->
-            <li class="nav-item">
+            <li class="nav-item" v-if="showAdminBoard">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Spin Enquiry</span>
@@ -46,6 +46,22 @@
                         <h6 class="collapse-header">SPIN ENQUIRY</h6>
                         <router-link to="/admin/spinenquiry" class="collapse-item">
                             <span>Spin Enquiry Listing</span></router-link>
+                    </div>
+                </div>
+            </li>
+            <!-- End Nav Item - Spin Enquiry Menu -->            
+
+            <!-- Start Nav Item - User Information Menu -->
+            <li class="nav-item" v-if="showAdminBoard">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseeight" aria-expanded="true" aria-controls="collapseeight">
+                    <i class="fa fa-user"></i>
+                    <span>User Information</span>
+                </a>
+                <div id="collapseeight" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">USER INFORMATION</h6>
+                        <router-link to="/admin/userinformation" class="collapse-item">
+                            <span>User Information Listing</span></router-link>
                     </div>
                 </div>
             </li>

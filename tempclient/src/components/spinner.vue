@@ -28,20 +28,86 @@
                     <div class="col-md-6">
                         <div class="col-md-12 bg-color">                            
                             <div class="mt-5 ">
-                                <vue-tel-input :valid-characters-only="true" @input="onInput" placeholder="Enter Phone Number to spin " />
+                                <vue-tel-input :valid-characters-only="true" @input="onInput" placeholder="Enter Phone Number to spin" :enabledCountryCode="true" />
                                 
                             </div>
                             <div class="button-wrapper">
-                                <h5 v-if="mobile_no_validate">{{ mobile_no_error_text }}</h5>
-                                <button class="btn btn-success"  @click.prevent="startSpin()" v-if="!loadingPrize && !wheelSpinning " :disabled='isDisabled'>{{ spin_button_text }}</button>
+                                <!--<h5 v-if="mobile_no_validate">{{ mobile_no_error_text }}</h5>-->
+                                <h5>{{ mobile_no_error_text }}</h5>
+                                <button class="btn btn-success"  @click.once="startSpin()" v-if="!loadingPrize && !wheelSpinning " :disabled='isDisabled'>{{ spin_button_text }}</button>
                             </div>
                             <div class="custom-modal modal-mask" id="modalSpinwheel" v-if="modalPrize">
                                 <div slot="body">
                                     <a href="" @click.prevent="hidePrize()" class="modal-dismiss">
                                         <i class="icon_close"></i>
                                     </a>
-                                    <h5>Yay you got the prize!!</h5>
-                                    <h6 class="price_win_text"> {{prizeName}}</h6>
+                                    <!--<h5>Yay you got the prize!!</h5>-->
+                                    <p class="showMessage">{{ showMessage }}</p>
+                                    <!--<h6 class="price_win_text"> {{prizeName}}</h6>-->
+                                    <button class="isWin" :class="{ active: isActive, 'deactive': isNotActive }" data-toggle="modal" data-target="#myModal">Next</button>
+                                    <!--<Modal></Modal>-->
+                                    <!-- The Modal -->
+                                    <div class="modal fade" id="myModal">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                      
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                          <h4 class="modal-title">User Information</h4>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <form name="form" @submit.prevent="handleEnquiry">
+                                               <div class="form-group">
+                                                   <label for="text">First Name</label>
+                                                   <input type="text" class="form-control" v-validate="'required|max:50'" name="FirstName" autocomplete="off" />
+                                                   <div v-if="submitted && errors.has('FirstName')" class="alert-danger">{{errors.first('FirstName')}}</div>
+                                               </div>
+                                               <div class="form-group">
+                                                   <label for="text">Last Name</label>
+                                                   <input type="text" class="form-control" v-validate="'required|max:50'" name="LastName" autocomplete="off"/>
+                                                   <div v-if="submitted && errors.has('LastName')" class="alert-danger">{{errors.first('LastName')}}</div>
+                                               </div>
+                                               <div class="form-group">
+                                                   <label for="text">Email</label>
+                                                   <input type="text" class="form-control" v-validate="'required|email'" name="Email" autocomplete="off"/>
+                                                   <div v-if="submitted && errors.has('Email')" class="alert-danger">{{errors.first('Email')}}</div>
+                                               </div>
+                                               <div class="form-group">
+                                                   <label for="text">Phone Number</label>
+                                                   <input type="text" class="form-control" :value="mobile_no.number" name="PhoneNumber" autocomplete="off" readonly/>
+                                                   <div v-if="submitted && errors.has('PhoneNumber')" class="alert-danger">{{errors.first('PhoneNumber')}}</div>
+                                               </div>
+                                               <div class="form-group">
+                                                   <label for="text">Website</label>
+                                                   <input type="text" class="form-control" name="Website" autocomplete="off"/>
+                                               </div>               
+                                               <div class="form-group">
+                                                   <label for="text">Business / Job Description</label>
+                                                   <input type="text" class="form-control" v-validate="'required|max:50'" name="Description" autocomplete="off"/>
+                                                   <div v-if="submitted && errors.has('Description')" class="alert-danger">{{errors.first('Description')}}</div>
+                                               </div>               
+                                               <div class="form-group">
+                                                   <label for="text">Address</label>
+                                                   <textarea name="Address" class="form-control" rows="3" placeholder="Please enter the Address"></textarea>
+                                               </div>
+                                               <div class="form-group">
+                                                     <button class="btn btn-primary btn-block" :class="{ FormBtnActive: show_btn_form, 'FormBtnDeactive': hide_btn_form }">ADD</button>
+                                               </div>
+                                            </form>
+                                            <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">{{message}}</div>
+                                        </div>
+                                        
+                                        <!-- Modal footer -->
+                                        <!--<div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>-->
+                                        
+                                      </div>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -58,11 +124,13 @@
     import { VueTelInput }  from 'vue-tel-input'
     import UserService from '../services/user.service'
     import axios from 'axios'
+    //import Modal from "./EnquiryForm";
     //import * as Winwheel from './Winwheel'
     export default {
         name: "spinner",
         components: {
-            VueTelInput         
+            VueTelInput,
+            //Modal
             //VueInjectJs
         },
         data() {
@@ -72,6 +140,21 @@
                     valid: false,
                     country: undefined,
                 },
+                form: {
+                    FirstName: '',
+                    LastName: '',
+                    Email: '',
+                    PhoneNumber: '',
+                    Website: '',
+                    Description: '',
+                    Address: ''
+                },
+                isActive : false,
+                isNotActive : false,
+                submitted: false,
+                successful: false,
+                show_btn_form: false,
+                hide_btn_form: false,
                 spin_button_text : 'SPIN !',
                 mobile_no_error_text : '',
                 mobile_no_validate : false,
@@ -82,6 +165,7 @@
                 theWheel: null,
                 modalPrize: false,
                 wheelPower: 1,
+                showMessage: '',
                 wheelSpinning: false,
                 prizeName: 'BUY 1 GET 1',
                 WinWheelOptions: {
@@ -146,7 +230,7 @@
                             }else{
                                 //this.message = response.data.message ;
                                 this.mobile_no_error_text =response.data.message;
-                                this.mobile_no_validate = true;
+                                this.mobile_no_validate = false;
                             }
                         }                    
                     });
@@ -221,25 +305,38 @@
             },
             onFinishSpin (indicatedSegment) {
                 this.prizeName = indicatedSegment.text
+                //this.isWin = indicatedSegment.isWin
                 this.showPrize();
                 this.rotate =false;
                 this.user_spin = this.user_spin + 1;
+                
                 
                 axios.post('spinresult', {
                     number: this.mobile_no.number,
                     status: 1,
                     prize_win: indicatedSegment.text,
+                    win_status: indicatedSegment.isWin,
                 })
                 .then(response => {
-                    //window.console.log(response)
+                    window.console.log(response)
                     if (response.data) {
                         if(response.data.status == 1 ){
                             this.mobile_no_validate = true;
                         }else{
                             this.message = response.data.message ;
+                            this.mobile_no_validate = false;
                         }
                     }                    
                 });
+                if(indicatedSegment.isWin == "Yes"){
+                    this.isActive = true;
+                    this.isNotActive = false;
+                    this.showMessage = "Congratulation You Have Win. Please Fill up Form";
+                } else {
+                    this.isActive = false;
+                    this.isNotActive = true;
+                    this.showMessage = "Oops! You Loss. Please try after 24 Hours.";
+                }
 
                 //console.log(" onFinishSpin" + (360 - this.theWheel.getRotationPosition()));
             },
@@ -264,7 +361,53 @@
                 //var total_degree =360;
                 //var per_segemnt  = 360/this.segments.length;
 
-            }
+            },
+            handleEnquiry(e) {
+                this.message        =   '';
+                this.submitted      =   true;
+                e.preventDefault()
+                let FirstName       =   e.target.elements.FirstName.value;
+                let LastName        =   e.target.elements.LastName.value;
+                let Email           =   e.target.elements.Email.value;
+                let PhoneNumber     =   e.target.elements.PhoneNumber.value;
+                let Website         =   e.target.elements.Website.value;
+                let Description     =   e.target.elements.Description.value;
+                let Address         =   e.target.elements.Address.value;
+                let WinPrize        =   this.prizeName;
+
+                let data = {
+                    FirstName: FirstName,
+                    LastName: LastName,
+                    Email: Email,
+                    PhoneNumber: PhoneNumber,
+                    Website: Website,
+                    Description: Description,
+                    Address: Address,
+                    WinPrize: WinPrize,
+                }
+
+                this.$validator.validate().then(isValid => {
+                  if (isValid) {
+                    axios.post('userinformation', data)
+                    .then(response => {
+                        window.console.log(response)
+                        if (response.data.status == 1 ) {
+                            this.message = "Thank You For Submit Information.";
+                            this.showMessage = "";
+                            this.successful = true;
+                            this.isActive = false;
+                            this.isNotActive = true;
+                            this.show_btn_form = false;
+                            this.hide_btn_form = true;
+                            this.mobile_no.number = "";
+                            e.target.reset()
+                        } else {
+                            this.message = response.data.message;
+                        }                   
+                    });
+                  }
+                });
+            }            
         },
         computed: {
             isDisabled: function(){
@@ -276,8 +419,8 @@
         mounted (){
             this.initSpin();
                         
-            UserService.getAllParts().then(
-                response => {                    
+            UserService.getAllFrontParts().then(
+                response => {               
                     this.segments = response.data;
                     this.resetWheel()
                     

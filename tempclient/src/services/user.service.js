@@ -23,6 +23,10 @@ class UserService {
   getAllParts() {
     return axios.get(API_URL + 'getAllParts', { headers: authHeader() });
   }
+  
+  getAllFrontParts() {
+    return axios.get(API_URL + 'getFrontAllParts', { headers: authHeader() });
+  }
 
   getDeletParts(id) {
     return axios.get(API_URL + 'getDeleteParts/'+id, { headers: authHeader() });

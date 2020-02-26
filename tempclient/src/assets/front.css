@@ -346,3 +346,34 @@
   90% { transform: rotate(-27deg); }
   100% { transform: rotate(-30deg); }
 }
+.isWin{
+    color: #fff;
+    background-color: #26ce4a;
+    text-align: center;
+    margin-top: 10px;
+    padding: 10px 40px 10px 40px;
+    border-radius: 15px;
+    border: none;
+    font-size: 24px;
+    font-family: SourceSansPro-Regular;
+    max-width: 100%;
+    margin: 0 33%;
+}
+.active{
+    display: block;
+}
+.deactive{
+    display: none;
+}
+.showMessage{
+    padding: 10px 0;
+}
+.modal{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.FormBtnActive{
+    display: block;
+}
+.FormBtnDeactive{
+    display: none;
+}

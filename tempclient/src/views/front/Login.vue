@@ -70,7 +70,7 @@ export default {
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push('/profile');
+      this.$router.push('/admin/profile');
     }
   },
   methods: {
@@ -84,13 +84,17 @@ export default {
 
         if (this.user.username && this.user.password) {
           this.$store.dispatch('auth/login', this.user).then(
-            () => {
-              this.$router.push('/profile');
+            (data) => {
+              if(data.roles == 'ROLE_ADMIN'){
+                this.$router.push('/admin/profile');
+              } else {
+                this.$router.push('/user/profile');
+              }
             },
             error => {
               this.loading = false;
               this.message =
-                (error.response && error.response.data) ||
+                (error.response && error.response.data.message) ||
                 error.message ||
                 error.toString();
             }

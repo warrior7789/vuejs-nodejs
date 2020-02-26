@@ -92,7 +92,7 @@ exports.addParts = (req, res) => {
       then(function(Spinner_parts_error){
         if (Spinner_parts_error.length > 0) {
           //exists...
-          res.status(500).send({ message: 'Position Already Exist'});
+          res.status(500).send('Position Already Exist');
         } else {
           // Save spinner_parts    to Database
           Spinner_parts.create({
@@ -100,7 +100,9 @@ exports.addParts = (req, res) => {
             text: req.body.text,
             fontsize: req.body.fontsize,
             textFillStyle: req.body.textFillStyle,
-            position: req.body.position   
+            position: req.body.position,
+            isWin: req.body.isWin,
+            gap: req.body.gap
           })
           .then(spinner_parts => {
             res.send({ message: "Insert successfully!" });
@@ -120,7 +122,9 @@ exports.updateparts = (req, res) => {
     text: req.body.text,
     fontsize: req.body.fontsize,
     textFillStyle: req.body.textFillStyle,
-    position: req.body.position
+    position: req.body.position,
+    isWin: req.body.isWin,
+    gap: req.body.gap
   },{
     where: {
       id: req.body.id

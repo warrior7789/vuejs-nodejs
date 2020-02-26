@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="main">
-      <h2>Spinner Parts Listing</h2>
+      <h2 class="heading-style">Spinner Parts Listing</h2>
         <table border='1' width='100%' style='border-collapse: collapse;'>
        <tr>
          <th>FILLSTYLE</th>
@@ -9,6 +9,8 @@
          <th>FONTSIZE</th>
          <th>TEXTFILLSTYLE</th>
          <th>POSITION</th>
+         <th>IS WIN</th>
+         <th>GAP</th>
          <th>ACTION</th>
        </tr>
        <tr v-for='values in data' :key="values.id">
@@ -17,6 +19,8 @@
        <td>{{ values.fontsize }}</td>
        <td>{{ values.textFillStyle }}</td>
        <td>{{ values.position }}</td>
+       <td>{{ values.isWin }}</td>
+       <td>{{ values.gap }}</td>
        <td>
         
         <router-link :to="'/admin/parts/edit/'+values.id">EDIT</router-link> || <button class="btn btn-danger" v-on:click="()=>deletePost(values.id)">Delete</button></td>

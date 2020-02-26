@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="main">
-      <h2>Update the Parts</h2>
+      <h2 class="heading-style">Update the Parts</h2>
       <router-link to="/admin/parts" class="collapse-item">BACK</router-link>
        <form name="form" @submit.prevent="handleUpdate">
        <div class="form-group">
@@ -28,7 +28,27 @@
            <label for="text">Position</label>
            <input type="text" class="form-control" v-validate="'required|numeric'" name="position" autocomplete="off" v-model="formdata.position"/>
            <div v-if="submitted && errors.has('position')" class="alert-danger">{{errors.first('position')}}</div>
-       </div>  
+       </div> 
+       <label for="text">Is Win</label>
+       <div class="form-group">
+           <select v-model="formdata.isWin">
+              <option disabled value="">Please select one</option>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+       </div>        
+       <label for="text">Gap</label>
+       <div class="form-group">
+           <select v-model="formdata.gap">
+              <option disabled value="">Please select one</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+       </div>       
        <div class="form-group">
              <button class="btn btn-primary btn-block">UPDATE</button>
        </div>
@@ -56,6 +76,7 @@
         text: '',
         fontsize: '',
         position: '',
+        isWin: '',
         formdata: {
           id : "",
           fillStyle : "",
@@ -63,6 +84,8 @@
           fontsize : "",
           textFillStyle : "",
           position : "",
+          isWin: "",
+          gap: ""
         },
         error : {
 
@@ -89,6 +112,8 @@
           this.formdata.fontsize = response.data.fontsize;
           this.formdata.textFillStyle = response.data.textFillStyle;
           this.formdata.position = response.data.position;
+          this.formdata.isWin = response.data.isWin;
+          this.formdata.gap = response.data.gap;
         },
         error => {
           this.error =
@@ -108,23 +133,7 @@
       handleUpdate(e) {
         this.message = '';
         this.submitted = true;
-        e.preventDefault()
-        //let fillstyle = this.fillstyle;
-        //let text = e.target.elements.text.value;
-        //let fontsize = e.target.elements.fontsize.value;
-        //let textFillStyle = this.textFillStyle;
-        //let position = e.target.elements.position.value;
-        //let id = this.$route.params.id;
-          
-       /* let data = {
-          id: id,
-          fillstyle: fillstyle,
-          text: text,
-          fontsize: fontsize,
-          textFillStyle: textFillStyle,
-          position: position
-        }*/
-  
+        e.preventDefault() 
         this.$validator.validate().then(isValid => {
           if (isValid) {
             this.$store.dispatch('auth/updateparts', this.formdata).then(

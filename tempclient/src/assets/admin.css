@@ -11158,3 +11158,28 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+.pagination {
+    margin: 0px 0 30px 0 !important;
+    float: right;
+}
+.btn.btn-danger {
+    margin: 10px 0px 10px 10px;
+}
+th {
+    text-align: inherit;
+    color: white;
+    background-color:
+    #5a5c69 !important;
+    margin: 0;
+    padding: 10px 15px;
+    text-align: center;
+}
+td{
+    text-align: center; 
+}
+.heading-style {
+    margin: 20px 0;
+}
+table{
+  margin: 0 0 3% 0;
+}

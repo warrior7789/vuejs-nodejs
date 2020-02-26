@@ -32,8 +32,14 @@
         </div>
 
         <div v-if="currentUser" class="navbar-nav ml-auto">
-            <li class="nav-item">
+            <li class="nav-item" v-if="showAdminBoard">
                 <router-link to="/admin/profile" class="nav-link">
+                    <font-awesome-icon icon="user" />
+                    {{ currentUser.username }}
+                </router-link>
+            </li>            
+            <li class="nav-item" v-else>
+                <router-link to="/user/profile" class="nav-link">
                     <font-awesome-icon icon="user" />
                     {{ currentUser.username }}
                 </router-link>

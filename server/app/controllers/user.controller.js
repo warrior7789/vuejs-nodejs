@@ -29,6 +29,28 @@ exports.allparts = (req, res) => {
     })
 };
 
+exports.allpartsFront = (req, res) => {
+    Spinner_parts.findAll({      
+    }).then(result => {
+
+        var gapArr = [{'fillStyle' : '#EF242C', 'text' : 'Better luck/nNext time', 'fontsize' : 20, 'textFillStyle' : '#ffffff', 'position' : '', 'isWin' : 'No'}, {'fillStyle' : '#D98B3C', 'text' : 'Better luck/nNext time', 'fontsize' : 20, 'textFillStyle' : '#ffffff', 'position' : '', 'isWin' : 'No'}, {'fillStyle' : '#128A9D', 'text' : 'Better luck/nNext time', 'fontsize' : 20, 'textFillStyle' : '#ffffff', 'position' : '', 'isWin' : 'No'}, {'fillStyle' : '#48C02C', 'text' : 'Better luck/nNext time', 'fontsize' : 20, 'textFillStyle' : '#ffffff', 'position' : '', 'isWin' : 'No'}, {'fillStyle' : '#95189D', 'text' : 'Better luck/nNext time', 'fontsize' : 20, 'textFillStyle' : '#ffffff', 'position' : '', 'isWin' : 'No'}];
+
+        var combinedArray = [];
+            
+        for (let i = 0; i < result.length; i++)  {
+            combinedArray.push(result[i]);
+            if(result[i].gap > 0){
+                for (let j = 0; j < result[i].gap; j++)  {
+                    console.log('Result Gap : '+result[i].gap);
+                    combinedArray.push(gapArr[j]);
+                }
+            }
+        }
+        
+        res.status(200).send(combinedArray);      
+    })
+};
+
 exports.DeleteParts = (req, res) => {    
    
     return Spinner_parts.destroy({ 
